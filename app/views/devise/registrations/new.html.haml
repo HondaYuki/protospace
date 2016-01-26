@@ -1,0 +1,31 @@
+.container.user-new
+  = form_for(resource_name, url: registration_path(resource_name)) do |f|
+    .col-md-8.col-md-offset-2
+      %header.row.user-nav.row
+        .col-md-12
+          %h2 Register
+          .user-name_image.row
+            .user-name.col-md-10
+              = f.text_field :name, autofocus: true, placeholder: 'username'
+            .user-image.col-md-2
+              %button.btn.btn-primary Add image
+              = f.file_field :avatar
+            .user-email.col-md-10
+              = f.email_field :email, autofocus: true, placeholder: 'email'
+              = f.password_field :password, placeholder: "Password"
+        .col-md-12
+          %h4 Member of
+          .user-user-member.row.user-name.col-md-12
+            = f.text_field :member, autofocus: true, placeholder: "Member of..."
+          %h4 Profile
+          .user-user-profile.row
+            .user-name.col-md-12
+              = f.text_area :profile, autofocus: true, cols: "30", rows: "4", placeholder: "Profile"
+          %h4 Works
+          .user-name_image.row
+            .user-name.col-md-12
+              = f.text_area :works, autofocus: true, cols: "30", rows: "4", placeholder: "Works"
+      .row.text-center.user-btn
+        = f.submit "register", class: "btn btn-lg btn-primary btn-block"
+      .text_center
+        = render "devise/shared/links"
