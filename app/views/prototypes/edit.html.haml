@@ -1,0 +1,40 @@
+.container.proto-new
+  = form_for @proto do |f|
+    .col-md-8.col-md-offset-2
+      %header.row.user-nav.row
+        .col-md-12
+          .proto-new-title
+            = f.text_field :title, placeholder: 'Title'
+      .row
+        .col-md-12
+          .cover-image-upload
+            = f.fields_for :thumbnails, @proto.get_main_thumbnail do |thumbnail|
+              = thumbnail.file_field :image
+              = thumbnail.hidden_field :status, value: :main
+        .col-md-12
+          %ul.proto-sub-list.list-group
+            - @proto.get_sub_thumbnails.each do |thumbnail|
+              %li.list-group-item.col-md-4
+                .image-upload
+                  = f.fields_for :thumbnails, thumbnail do |thumbnail|
+                    = thumbnail.file_field :image
+                    = thumbnail.hidden_field :status, value: :sub
+            %li.list-group-item.col-md-4
+              .image-upload-plus
+                %span +
+      .row.proto-description
+        .col-md-12
+          = f.text_field :catchcopy, placeholder: 'Catch Copy'
+        .col-md-12
+          = f.text_area :concept, placeholder: 'Concept', size: '30x4'
+        .col-md-12
+          %h4 Tag List
+          .row
+            .col-md-3
+              / %input{:type => "text", :placeholder => "Web Design"}/
+            .col-md-3
+              / %input{:type => "text", :placeholder => "UI"}/
+            .col-md-3
+              / %input{:type => "text", :placeholder => "Application"}/
+      .row.text-center.proto-btn
+        = f.submit 'Publish', class: 'btn btn-lg btn-primary btn-block'
