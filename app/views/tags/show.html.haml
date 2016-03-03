@@ -17,6 +17,6 @@
         = link_to params[:tag], "#", style: "width: 100%; height: 50px; font-size: 2rem; font-weight: 300; padding-bottom: 3px; color: #999; background-color: #eee;", class: "btn btn-tag"
 .container.proto-list
   .row
-    = render partial: 'prototypes/prototype', collection: @prototypes
+    = render @prototypes
 .text-center
   = paginate @prototypes
