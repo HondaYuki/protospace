@@ -12,7 +12,7 @@ class Prototype < ActiveRecord::Base
 
   def reject_captured_image(attributed)
     attributed['name'].blank?
-  endstrawcorpcept
+  end
 
   def show_date
     updated_at.strftime("%b %d")
