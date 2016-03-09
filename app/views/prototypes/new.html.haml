@@ -1,40 +1,43 @@
 .container.proto-new
-  = form_for @proto do |f|
+  = form_for @prototype do |f|
+    - if @prototype.errors.present?
+      - @prototype.errors.full_messages.each do |error|
+        %li "#{error}"
     .col-md-8.col-md-offset-2
       %header.row.user-nav.row
         .col-md-12
           .proto-new-title
-            = f.text_field :title, placeholder: 'Title'
-      .row
-        .col-md-12
-          .cover-image-upload
-            = f.fields_for :thumbnails do |thumbnail|
-              = thumbnail.file_field :image
-              = thumbnail.hidden_field :status, value: :main
-        .col-md-12
-          %ul.proto-sub-list.list-group
-            - for i in 1..2
+            = f.text_field :title, placeholder: "Title"
+
+      = f.fields_for :captured_images do |captured_image|
+        .row
+          .col-md-12
+            .cover-image-upload
+              = captured_image.file_field :main
+          .col-md-12
+            %ul.proto-sub-list.list-group
               %li.list-group-item.col-md-4
                 .image-upload
-                  = f.fields_for :thumbnails do |thumbnail|
-                    = thumbnail.file_field :image
-                    = thumbnail.hidden_field :status, value: :sub
-            %li.list-group-item.col-md-4
-              .image-upload-plus
-                %span +
+                  = captured_image.file_field :sub
+              %li.list-group-item.col-md-4
+                .image-upload
+                  = captured_image.file_field :sub
+              %li.list-group-item.col-md-4
+                .image-upload-plus
+                  %span +
       .row.proto-description
         .col-md-12
           = f.text_field :catchcopy, placeholder: 'Catch Copy'
         .col-md-12
-          = f.text_area :concept, placeholder: 'Concept', size: '30x4'
+          = f.text_area :concept, cols: "30", rows: "4", placeholder: "Concept"
         .col-md-12
           %h4 Tag List
           .row
             .col-md-3
-              = text_field_tag 'proto[tag][]', '', placeholder: 'Web Design'
+              = text_field_tag "prototype[tag][]", "", placeholder: "Web Design"
             .col-md-3
-              = text_field_tag 'proto[tag][]', '', placeholder: 'UI'
+              = text_field_tag "prototype[tag][]", "", placeholder: "UI"
             .col-md-3
-              = text_field_tag 'proto[tag][]', '', placeholder: 'Application '
+              = text_field_tag "prototype[tag][]", "", placeholder: "Application"
       .row.text-center.proto-btn
-        = f.submit 'Publish', class: 'btn btn-lg btn-primary btn-block'
+        = button_tag 'Publish', type: 'submit', class: 'btn btn-lg btn-primary btn-block'

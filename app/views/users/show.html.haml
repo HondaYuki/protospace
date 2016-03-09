@@ -1,0 +1,15 @@
+.container.user-page
+  %header.user-nav
+    .media
+      .media-left
+        = image_tag current_user.avatar, width: 64, height: 64
+      .media-body
+        %h4#top-aligned-media.media-heading
+          = current_user.name
+          %span.label.label-default.project-number
+            = current_user.prototypes.count
+            %i Dishes
+
+.container.proto-list
+  .row
+    = render partial: 'prototypes/prototype'

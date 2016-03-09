@@ -1,0 +1,10 @@
+.media-left
+  = link_to user_path(comment.prototype.user) do
+    %img.media-object{ alt: "64x64", data: { holder: { rendered: :true } }, data: { src: "holder.js/64x64" }, src: comment.prototype.user.avatar, style: "width: 64px; height: 64px; float: left; margin-right: 10px;" }/
+.media-body
+  %h4#top-aligned-media.media-heading
+    = comment.prototype.user.username
+    %a.anchorjs-link{ href: "#top-aligned-media" }
+      %span.anchorjs-icon
+  %p
+    =comment.comment

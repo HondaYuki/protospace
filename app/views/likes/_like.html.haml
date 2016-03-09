@@ -1,0 +1,22 @@
+- if user_signed_in?
+  - if Like.is_exist_like(current_user, @prototype)
+    = link_to proto_like_path(@prototype, Like.get_like(current_user, @prototype)), method: :patch, remote: true do
+      %button.btn.btn-default{ style: 'width: 110px; height: 62px;'}
+        = image_tag("icon_heart_red.svg")
+        Like
+        %span.num
+          = @prototype.likes.count
+  - else
+    = link_to prototype_likes_path(@proto), method: :post, remote: true do
+      %button.btn.btn-default{ style: 'width: 110px; height: 62px;' }
+        = image_tag("icon_heart.svg")
+        Like
+        %span.num
+          = @prototype.likes.count
+- else
+  = link_to new_user_session_path, method: :post, remote: true do
+    %button.btn.btn-default{ style: 'width: 110px; height: 62px;' }
+      = image_tag("icon_heart.svg")
+      Like
+      %span.num
+        = @prototype.likes.count

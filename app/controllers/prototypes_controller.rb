@@ -1,49 +1,54 @@
 class PrototypesController < ApplicationController
+  before_action :authenticate_user!, only: [:new, :create]
+  before_action :set_prototype, only: [:show, :edit, :update, :destroy]
 
   def index
-    if params[:id] == 'newest'
-      @protos = Proto.all.order('updated_at DESC')
-    else
-      @protos = Proto.all.order('likes_count DESC')
-    end
+    @prototypes = Prototype.page(params[:page])
   end
 
   def show
-    @proto = Proto.find(params[:id])
-    @user = @proto.user
-    @thumbnails = @proto.thumbnails
-    @comments = Comment.where(proto_id: @proto.id)
+    @comments = @prototype.comments.includes(:user)
     @comment = Comment.new
-    @likes = @proto.likes
-
   end
 
   def new
-    @proto = Proto.new
-    @proto.thumbnails.new
+    @prototype = Prototype.new
+    @prototype.captured_images.build
   end
 
   def create
-    Proto.create(proto_params)
-    redirect_to root_path and return
-  end
-
-  def destroy
-    Proto.find_by_id(params[:id]).destroy
-    redirect_to root_path and return
+    @prototype = current_user.prototypes.new(create_params)
+    if @prototype.save
+      redirect_to root_path
+    else
+      render :new
+    end
   end
 
   def edit
-    @proto = Proto.find_by_id(params[:id])
   end
 
   def update
-    proto = Proto.find_by_id(params[:id])
-    proto.update(proto_params)
-    redirect_to root_path and return
+    @prototype.update(update_params)
+    redirect_to prototype_path(@prototype.id)
   end
 
+  def destroy
+    @prototype.destroy
+    redirect_to :back
+  end
   private
-  def proto_params
-    params.require(:proto).permit(:title, :catchcopy, :concept, thumbnails_attributes: [:image, :status, :id]).merge(user_id: current_user.id, tag_list: params[:proto][:tag])
+  def create_params
+    tag_list = params[:prototype][:tag_list]
+    params.require(:prototype).permit(:title, :catchcopy, :concept, captured_images_attributes: [:name, :status, :prototype_id]).merge(tag_list: tag_list)
+  end
+
+  def set_prototype
+    @prototype = Prototype.find(params[:id])
+  end
+
+  def update_params
+    tag_list = params[:prototype][:tag_list]
+    params.require(:prototype).permit(:title, :catchcopy, :concept, captured_images_attributes: [:id, :name, :status, :prototype_id]).merge(tag_list: tag_list)
+  end
 end
