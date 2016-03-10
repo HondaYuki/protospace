@@ -3,58 +3,54 @@
     .col-md-6
       .media
         .media-left
-          = link_to user_path(@user) do
-            %img.media-object{ alt: "64x64", data: { holder: { rendered: :true } }, data: { src: "holder.js/64x64" }, src: @user.avatar, style: "width: 64px; height: 64px;" }/
+          = link_to image_tag(@prototype.user.avatar, alt: '64x64', data:{ holder:{ rendered: 'true' } }, data:{ src: 'holder.js/64x64' }, style: 'width: 64px; height: 64px;'), root_path, class: 'media-object'
         .media-body
           %h4#top-aligned-media.media-heading
-            = @proto.title
-          .proto-user
-            = link_to 'by ' + @user.username, user_path(@user)
-            %span.degree
-              = @user.works
+            - if user_signed_in? && current_user.id == @prototype.user.id
+              = link_to 'edit', edit_prototype_path(@prototype)
+              = link_to 'destroy', prototype_path(@prototype), method: :delete
 
+          .proto-user
+            = link_to @prototype.user.name, root_path
     .col-md-6.text-right
-      = render partial: 'prototypes/likes/like'
+      = render 'prototypes/likes/like'
   .row
     .col-md-9
-      = image_tag(@proto.get_main_thumbnail.image, class: 'img-responsive')
+      = image_tag @prototype.main_image, class: 'img-responsive'
     .col-md-3
       %ul.proto-sub-list.list-group
-        - @proto.get_sub_thumbnails.each do |thumbnail|
+        - @prototype.sub_images.each do |image|
           %li.list-group-item
-            = image_tag(thumbnail.image, class: 'img-responsive')
+            = image_tag image, class: 'img-responsive'
   .row.proto-description
     .col-md-3
-      %h4 Catch Copy
-      %p
-        = @proto.catchcopy
+      %h4 Time
+      %p #{ @prototype.time } minutes
     .col-md-6
-      %h4 Concept
-      %p
-        = @proto.concept
-    .col-md-3
-      %h4 Tag List
-      %ul.proto-tag-list.list-inline
-        - @proto.tags.each do |tag|
-          %li
-            = link_to "#{tag.name}", tag_path(tag.name), class: 'btn btn-default'
+      %h4 Cost
+      %p  ¥ #{ @prototype.cost }
+    - unless @prototype.tag_list.blank?
+      .col-md-3
+        %h4 Tag List
+        %ul.proto-tag-list.list-inline
+          - @prototype.tags.each do |tag|
+            %li 
+              = link_to tag.name, tag_path(tag), class: 'btn btn-default'
+    .form-group.col-md-2
+      = link_to 'link', @prototype.url, class: 'btn btn-primary'
   .row.proto-comments
     %h4.col-md-12
       Comments
-      %span.num
-        (
-        = @comments.count
-        )
-    .col-md-8
-      .media
-        = render partial: 'prototypes/comments/comment', collection: @comments
+      %span.num#comment_count
+        = "(#{ @prototype.comments_count })"
+      .col-md-8#comments
+        = render partial: 'comments/comment', collection: @prototype.comments
+      %form.form-inline{ role: 'form'}
       - if user_signed_in?
-        = form_for [@proto, @comment], remote: true do |f|
-          %h4
-            Write a comment
+        = form_for @comment, url: prototype_comments_path(@prototype) do |f|
+          %h4 Write a comment
           .row
             .form-group.col-md-10
-              = f.text_area :comment, placeholder: 'Your comments', size: '30x3', class: 'form-control'
+              = f.text_area :text, placeholder: 'Your commments', rows: '3', class: 'form-control', id: 'comment_field'
             .form-group.col-md-2
-              = f.submit ['Comment'], class: 'btn btn-primary'
-
+              = button_tag 'Comment', class: 'btn btn-primary'

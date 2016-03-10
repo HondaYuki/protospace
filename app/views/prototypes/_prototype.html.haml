@@ -1,0 +1,23 @@
+.container.proto-list
+  .row
+    - @prototypes.each do |prototype|
+      - unless prototype.captured_images.main.blank?
+        .col-sm-4.col-md-3.proto-content
+          .thumbnail
+            = link_to prototype_path(prototype) do
+              = image_tag prototype.captured_images.main[0].name
+              .caption
+                %h3
+                  = link_to prototype.title, prototype_path(prototype)
+                .proto-meta
+                  .proto-user
+                    = link_to prototype.user.name, root_path
+                  .proto-posted
+                    = prototype.posted_date
+                %ul.proto-tag-list.list-inline
+                  - unless prototype.tag_list.blank?
+                    - prototype.tags.each do |tag|
+                      %li 
+                        = link_to tag.name, tag_path(tag, tag_name: tag.name), class: 'btn btn-default'
+.text-center
+  = paginate @prototypes, remote: true

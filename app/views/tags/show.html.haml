@@ -1,0 +1,22 @@
+.jumbotron
+  .container.text-center
+    = image_tag("header_logo.png", alt: "PROTO TYPE - SHARE THE PROTOTYPE", height: "73px")
+.filter-nav
+  .container
+    .row
+      %ul.nav.nav-pills.col-lg-11
+        %li.active{ role: "presentation" }
+          = link_to "Popular PROTO", root_path
+        %li{ role: "presentation" }
+          = link_to "Newest PROTO", newest_index_path
+      = link_to "View Tags", tags_path, class: "btn btn-default col-lg-1"
+.container
+  .row
+    .col-sm-12.proto-content
+      .thumbnail
+        = link_to params[:tag], "#", style: "width: 100%; height: 50px; font-size: 2rem; font-weight: 300; padding-bottom: 3px; color: #999; background-color: #eee;", class: "btn btn-tag"
+.container.proto-list
+  .row
+    = render @prototypes
+.text-center
+  = paginate @prototypes

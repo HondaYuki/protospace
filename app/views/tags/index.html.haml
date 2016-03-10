@@ -1,0 +1,15 @@
+.jumbotron
+  .container.text-center
+    = image_tag("header_logo.png", alt: "PROTO TYPE - SHARE THE PROTOTYPE", height: "73px")
+.filter-nav
+  .container
+    .row
+      %ul.nav.nav-pills.col-lg-11
+        %li{ role: "presentation" }
+          = link_to "Popular PROTO", root_path
+        %li{ role: "presentation" }
+          = link_to "Newest PROTO",  prototype_newest_index_path
+      = link_to "View Tags", tags_path, class: "btn btn-default col-lg-1"
+.container.proto-list
+  .row
+    = render partial: 'tag', collection: @tags

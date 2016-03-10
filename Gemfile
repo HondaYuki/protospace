@@ -44,13 +44,27 @@ group :development, :test do
 end
 
 gem 'haml-rails'
+
 gem 'erb2haml'
+
 gem 'pry-rails'
-gem 'sprockets'
+
+gem 'sprockets', '2.11.0'
+
 gem 'bootstrap-sass', '~> 2.3.1.0'
+
 gem 'therubyracer'
+
 gem 'less-rails'
+
 gem 'twitter-bootstrap-rails'
+
 gem 'devise'
+
 gem 'paperclip'
+
 gem 'carrierwave'
+
+gem 'kaminari'
+
+gem 'acts-as-taggable-on'
