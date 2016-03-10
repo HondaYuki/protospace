@@ -68,3 +68,5 @@ gem 'carrierwave'
 gem 'kaminari'
 
 gem 'acts-as-taggable-on'
+
+gem 'fog'
