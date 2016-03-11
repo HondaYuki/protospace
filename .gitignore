@@ -11,3 +11,15 @@
 /log/*
 !/log/.keep
 /tmp
+config/database.yml
+/public/assets/*
+/public/system/*
+/shared
+/repo
+/releases
+unicorn-restart.sh
+vendor/bundle
+
+config/settings.local.yml
+config/settings/*.local.yml
+config/environments/*.local.yml
